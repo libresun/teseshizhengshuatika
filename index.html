@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<!-- saved from url=(0113)file:///C:/Users/BIG%20Bear/Desktop/%E4%B8%8A%E6%B5%B7%E7%89%B9%E8%89%B2%E6%97%B6%E6%94%BF%E5%88%B7%E9%A2%98.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上海特色时政刷题</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+  body {
+    background: linear-gradient(135deg, #eef2f7 0%, #dce7f5 100%);
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 30px;
+    box-shadow: 0 6px 24px rgba(30,60,120,0.12);
+  }
+  h1 {
+    text-align: center;
+    color: #1e3a6e;
+    font-size: 22px;
+    margin-bottom: 6px;
+  }
+  .sub {
+    text-align: center;
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 22px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
+    width: 0%;
+    transition: width 0.3s;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+  .score { color: #2563eb; font-weight: bold; }
+  .question-title {
+    font-size: 17px;
+    color: #111827;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .tag {
+    display: inline-block;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .option-item {
+    padding: 13px 16px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .option-item:hover { background: #f0f7ff; border-color: #93c5fd; }
+  .option-item.right {
+    background: #dcfce7;
+    border-color: #22c55e;
+    color: #166534;
+    font-weight: bold;
+  }
+  .option-item.wrong {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+  }
+  .option-item.disabled { pointer-events: none; opacity: 0.85; }
+  .answer-hint {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 6px;
+    display: none;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1e40af;
+  }
+  .btn-wrap {
+    margin-top: 24px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  button {
+    padding: 11px 26px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  button:hover { opacity: 0.88; }
+  #nextBtn { background: #2563eb; color: #fff; }
+  #resetBtn { background: #6b7280; color: #fff; }
+  .done-box {
+    text-align: center;
+    padding: 40px 20px;
+    display: none;
+  }
+  .done-box h2 { color: #1e3a6e; margin-bottom: 12px; }
+  .done-box p { color: #4b5563; margin-bottom: 20px; font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>上海特色时政 · 刷题卡片</h1>
+  <div class="sub">覆盖 2026 政府工作报告 + "十五五"规划核心概念｜点击选项即时判分</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 4.54545%;"></div></div>
+  <div class="meta">
+    <span id="qCounter">第 3 / 44 题</span>
+    <span class="score">已答对：<span id="rightCount">1</span>　已答错：<span id="wrongCount">2</span></span>
+  </div>
+
+  <div id="quizArea" style="display: block;">
+    <span class="tag" id="qTag">制度型开放</span>
+    <div class="question-title" id="qTitle">上海推进制度型开放，重点方向不包括？</div>
+    <div id="optionWrap"><div class="option-item disabled wrong">规则对接</div><div class="option-item disabled right">限制跨境人员往来</div><div class="option-item disabled">数字贸易</div><div class="option-item disabled">跨境金融</div></div>
+    <div class="answer-hint" id="ansHint" style="display: block;">
+      <strong>✅ 正确答案：</strong><span id="ansText">限制跨境人员往来</span>
+    </div>
+  </div>
+
+  <div class="done-box" id="doneBox" style="display: none;">
+    <h2>🎉 本轮刷题完成！</h2>
+    <p>共 <span id="totalNum">0</span> 题，答对 <span id="finalRight">0</span> 题，答错 <span id="finalWrong">0</span> 题。</p>
+    <button id="againBtn" style="background:#2563eb;color:#fff;">再刷一轮</button>
+  </div>
+
+  <div class="btn-wrap" id="btnWrap" style="display: flex;">
+    <button id="nextBtn">下一题（自动打乱选项）</button>
+    <button id="resetBtn">重新开始整套</button>
+  </div>
+</div>
+
+<script>
+const questionBank = [
+  // ===== 一、总定位总要求 =====
+  {
+    tag: "总定位总要求",
+    q: "上海提出的「四个放在」是总定位总要求，以下哪一项不属于「四个放在」？",
+    options: ["放在中央战略定位中审视", "放在全球化背景中谋划", "放在全国发展大局中考量", "放在长三角周边城市民生中对标"],
+    answer: "放在长三角周边城市民生中对标"
+  },
+  {
+    tag: "总定位总要求",
+    q: "上海强化的「四大功能」不包含以下哪一项？",
+    options: ["全球资源配置功能", "科技创新策源功能", "高端产业引领功能", "传统农业生产功能"],
+    answer: "传统农业生产功能"
+  },
+  {
+    tag: "总定位总要求",
+    q: "上海工作总抓手是：以____为引领、改革开放为动力、国家战略为牵引、城市治理现代化为保障。",
+    options: ["科技创新", "招商引资", "房地产开发", "出口加工"],
+    answer: "科技创新"
+  },
+
+  // ===== 二、五个中心 =====
+  {
+    tag: "五个中心",
+    q: "下列哪一项不属于上海「五个中心」建设范畴？",
+    options: ["国际经济中心", "国际金融中心", "国际农业中心", "国际科技创新中心"],
+    answer: "国际农业中心"
+  },
+  {
+    tag: "五个中心",
+    q: "上海国际金融中心建设的重点方向不包括？",
+    options: ["人民币跨境支付体系", "离岸金融体系", "碳市场深化", "大规模房地产信贷投放"],
+    answer: "大规模房地产信贷投放"
+  },
+  {
+    tag: "五个中心",
+    q: "上海国际贸易中心建设提出打造「丝路电商先行区」和____。",
+    options: ["数字经贸合作区", "边境贸易试验区", "农产品出口专区", "奢侈品免税城区"],
+    answer: "数字经贸合作区"
+  },
+  {
+    tag: "五个中心",
+    q: "下列哪一项不属于上海国际航运中心建设的重点工程？",
+    options: ["小洋山北港区", "东方枢纽", "浦东机场四期", "外高桥内河造船基地"],
+    answer: "外高桥内河造船基地"
+  },
+  {
+    tag: "五个中心",
+    q: "上海国际科技创新中心建设提出建设基础研究先行区、智算光网和____。",
+    options: ["类脑智能", "液晶面板产业", "传统汽车制造", "化工新材料集群"],
+    answer: "类脑智能"
+  },
+
+  // ===== 三、三大任务一大平台 =====
+  {
+    tag: "国家战略",
+    q: "「三大任务一大平台」中的「一大平台」指的是？",
+    options: ["中国国际进口博览会", "上海工业博览会", "上海国际车展", "浦江创新论坛"],
+    answer: "中国国际进口博览会"
+  },
+  {
+    tag: "国家战略",
+    q: "下列哪一项不属于上海「三大任务」？",
+    options: ["临港新片区", "科创板注册制", "长三角一体化发展", "浦东文旅免税开发区"],
+    answer: "浦东文旅免税开发区"
+  },
+
+  // ===== 四、新质生产力与产业 =====
+  {
+    tag: "新质生产力",
+    q: "上海提出新质生产力的核心内涵是____深度融合，抢占未来发展制高点。",
+    options: ["科创与产业", "资本与地产", "外贸与消费", "文旅与金融"],
+    answer: "科创与产业"
+  },
+  {
+    tag: "现代化产业体系",
+    q: "在上海「2+3+6+6」现代化产业体系中，「2 个转型」指传统产业数智化与____。",
+    options: ["绿色化", "规模化", "外向化", "小型化"],
+    answer: "绿色化"
+  },
+  {
+    tag: "现代化产业体系",
+    q: "下列哪一项不属于上海「三大先导产业」？",
+    options: ["集成电路", "生物医药", "人工智能", "传统纺织服装"],
+    answer: "传统纺织服装"
+  },
+  {
+    tag: "现代化产业体系",
+    q: "下列哪一项不属于上海布局的「六大未来产业」范畴？",
+    options: ["未来制造", "未来健康", "未来能源", "传统煤炭开采"],
+    answer: "传统煤炭开采"
+  },
+  {
+    tag: "新赛道",
+    q: "下列哪一项不属于上海重点布局的新赛道？",
+    options: ["智能网联新能源汽车", "低空经济", "商业航天", "传统火力发电"],
+    answer: "传统火力发电"
+  },
+  {
+    tag: "现代化产业体系",
+    q: "上海「十五五」打造的万亿级新增量产业集群不包括？",
+    options: ["智能终端", "商业航天", "低空经济", "传统钢铁冶炼"],
+    answer: "传统钢铁冶炼"
+  },
+
+  // ===== 五、城市空间 =====
+  {
+    tag: "城市空间",
+    q: "上海推进「五个新城」发力，其核心目标不包括？",
+    options: ["产业细分赛道布局", "公共服务均衡配置", "区区结对协同", "单一房地产开发扩张"],
+    answer: "单一房地产开发扩张"
+  },
+  {
+    tag: "城市空间",
+    q: "下列哪一个板块属于上海「南北转型」重点区域？",
+    options: ["吴淞创新城", "张江科学城", "临港大学城", "世博滨江商务区"],
+    answer: "吴淞创新城"
+  },
+  {
+    tag: "城市空间",
+    q: "上海「一江一河一带」建设的核心工作是？",
+    options: ["滨水空间品质提升与外环绿道贯通", "大规模临江工业扩建", "化工基地向滨江迁移", "江滩全面围垦开发"],
+    answer: "滨水空间品质提升与外环绿道贯通"
+  },
+  {
+    tag: "公园城市",
+    q: "上海建设「公园城市·千园之城」，推动部分公园实现____。",
+    options: ["24 小时开放", "仅工作日开放", "收费预约参观", "仅限本地市民进入"],
+    answer: "24 小时开放"
+  },
+
+  // ===== 六、城市治理 =====
+  {
+    tag: "城市治理",
+    q: "上海「一网统管」超大城市数字治理体系由城市大脑、____和数字体征共同构成。",
+    options: ["神经元", "网格员队伍", "社区工作站", "政务服务大厅"],
+    answer: "神经元"
+  },
+  {
+    tag: "城市治理",
+    q: "上海建设「全域无废城市」，重点推进固废综合治理、近零填埋和____。",
+    options: ["建筑垃圾资源化", "生活垃圾全面焚烧", "工业废渣直排河道", "危废跨省转移"],
+    answer: "建筑垃圾资源化"
+  },
+  {
+    tag: "美丽上海",
+    q: "「美丽上海」建设提出 PM2.5 与____协同控制，水环境推进厂站网一体化运维。",
+    options: ["臭氧", "二氧化碳", "氮气", "氢气"],
+    answer: "臭氧"
+  },
+  {
+    tag: "五违四必",
+    q: "下列哪一项不属于上海「五违」整治内容？",
+    options: ["违法用地", "违法建筑", "违法经营", "违法公益宣传"],
+    answer: "违法公益宣传"
+  },
+  {
+    tag: "五违四必",
+    q: "上海「五违四必」中的「四必」不包括？",
+    options: ["隐患必除", "违建必拆", "脏乱必治", "信访必复"],
+    answer: "信访必复"
+  },
+
+  // ===== 七、民生 =====
+  {
+    tag: "一老一小",
+    q: "上海「一老一小」民生工作中，针对老年人不包括下列哪项措施？",
+    options: ["家门口养老服务站", "认知障碍照护床位", "居家适老化改造", "老年专属工业地块"],
+    answer: "老年专属工业地块"
+  },
+  {
+    tag: "一老一小",
+    q: "「儿童友好城市」与「普惠托育一体化」属于上海哪项民生重点工作？",
+    options: ["一老一小", "就业促进", "住房保障", "文化体育"],
+    answer: "一老一小"
+  },
+  {
+    tag: "就业",
+    q: "上海着力建设「____城市」，扩大就业岗位，并对接世界技能大赛。",
+    options: ["就业友好型", "旅游导向型", "重化工业主导型", "出口加工型"],
+    answer: "就业友好型"
+  },
+  {
+    tag: "社会保障",
+    q: "上海社会保障重点提出新就业形态____保障、分层分类救助和医保养老低保统筹提标。",
+    options: ["职业伤害", "住房公积金", "带薪休假", "子女教育"],
+    answer: "职业伤害"
+  },
+
+  // ===== 八、绿色低碳 =====
+  {
+    tag: "双碳",
+    q: "上海提出碳达峰碳中和目标：____年前实现碳达峰、2060 年前实现碳中和。",
+    options: ["2030", "2025", "2035", "2045"],
+    answer: "2030"
+  },
+  {
+    tag: "绿色低碳",
+    q: "上海构建新型能源体系，重点发展深远海风电、____和零碳园区。",
+    options: ["新型储能", "燃煤火电扩容", "燃油汽车产能", "传统化工园区"],
+    answer: "新型储能"
+  },
+
+  // ===== 九、十五五规划 =====
+  {
+    tag: "十五五总定位",
+    q: "上海「十五五」规划总定位：在中国式现代化中勇立潮头、____。",
+    options: ["当好尖兵", "优先发展外贸", "优先发展房地产", "优先发展传统农业"],
+    answer: "当好尖兵"
+  },
+  {
+    tag: "十五五总目标",
+    q: "上海「十五五」规划提出，到 2035 年基本建成具有世界影响力的____国际大都市。",
+    options: ["社会主义现代化", "纯消费型", "单一外贸型", "传统工业型"],
+    answer: "社会主义现代化"
+  },
+  {
+    tag: "城市空间新格局",
+    q: "上海「十五五」城市空间新格局概括为：新城发力、南北转型、____、城乡融合。",
+    options: ["东西联动", "南北分割", "内外隔离", "产业单一"],
+    answer: "东西联动"
+  },
+  {
+    tag: "十五五",
+    q: "下列哪一项属于上海「十五五」强调的生态战略空间？",
+    options: ["崇明世界级生态岛", "临港重化工基地", "外高桥炼油厂", "罗泾煤炭港区"],
+    answer: "崇明世界级生态岛"
+  },
+  {
+    tag: "制度型开放",
+    q: "上海推进制度型开放，重点方向不包括？",
+    options: ["跨境金融", "数字贸易", "规则对接", "限制跨境人员往来"],
+    answer: "限制跨境人员往来"
+  },
+  {
+    tag: "长三角一体化",
+    q: "上海推进长三角一体化发展，下列哪一项不属于其方向？",
+    options: ["基础设施互通", "公共服务共享", "市场一体化", "地方壁垒强化"],
+    answer: "地方壁垒强化"
+  },
+  {
+    tag: "人民城市",
+    q: "上海推进____基层实践，落实人民城市建设理念。",
+    options: ["全过程人民民主", "资本优先扩张", "土地快速商业化", "工业无限制扩张"],
+    answer: "全过程人民民主"
+  },
+  {
+    tag: "青年发展",
+    q: "上海打造____城市，建设高品质人才生态，吸引青年人才集聚。",
+    options: ["青年发展型", "高消费封闭型", "单一工业型", "资源输出型"],
+    answer: "青年发展型"
+  },
+  {
+    tag: "绿色低碳",
+    q: "上海「十五五」绿色低碳转型提出建设全域____城市、碳市场标杆和近零排放园区。",
+    options: ["零碳", "重化", "制造", "商贸"],
+    answer: "零碳"
+  },
+
+  // ===== 十、上海独有高频词 =====
+  {
+    tag: "五型经济",
+    q: "下列哪一项不属于上海「五型经济」？",
+    options: ["创新型", "服务型", "开放型", "资源掠夺型"],
+    answer: "资源掠夺型"
+  },
+  {
+    tag: "四大品牌",
+    q: "下列哪一项不属于上海「四大品牌」？",
+    options: ["上海服务", "上海制造", "上海购物", "上海重工"],
+    answer: "上海重工"
+  },
+  {
+    tag: "超大城市新路",
+    q: "上海探索超大城市现代化新路，走的是内涵式、集约型、绿色化、____的发展路子。",
+    options: ["精细化", "粗放型", "扩张型", "高耗能型"],
+    answer: "精细化"
+  },
+  {
+    tag: "沪派江南",
+    q: "「沪派江南」建设重点包括特色村落、风貌保护和____。",
+    options: ["江南文化传承", "大规模拆旧建新", "商业地产全覆盖", "工业遍地开花"],
+    answer: "江南文化传承"
+  }
+];
+
+let order = [];
+let idx = 0;
+let right = 0, wrong = 0;
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function render() {
+  if (idx >= order.length) {
+    document.getElementById("quizArea").style.display = "none";
+    document.getElementById("btnWrap").style.display = "none";
+    document.getElementById("progressFill").style.width = "100%";
+    document.getElementById("doneBox").style.display = "block";
+    document.getElementById("totalNum").innerText = order.length;
+    document.getElementById("finalRight").innerText = right;
+    document.getElementById("finalWrong").innerText = wrong;
+    return;
+  }
+  const item = questionBank[order[idx]];
+  document.getElementById("qCounter").innerText = `第 ${idx + 1} / ${order.length} 题`;
+  document.getElementById("progressFill").style.width = ((idx) / order.length * 100) + "%";
+  document.getElementById("qTag").innerText = item.tag;
+  document.getElementById("qTitle").innerText = item.q;
+  document.getElementById("ansHint").style.display = "none";
+
+  const wrap = document.getElementById("optionWrap");
+  wrap.innerHTML = "";
+  shuffle(item.options).forEach(opt => {
+    const div = document.createElement("div");
+    div.className = "option-item";
+    div.innerText = opt;
+    div.onclick = function () {
+      const all = document.querySelectorAll(".option-item");
+      all.forEach(el => el.classList.add("disabled"));
+      if (opt === item.answer) {
+        div.classList.add("right");
+        right++;
+      } else {
+        div.classList.add("wrong");
+        all.forEach(el => { if (el.innerText === item.answer) el.classList.add("right"); });
+        wrong++;
+      }
+      document.getElementById("ansText").innerText = item.answer;
+      document.getElementById("ansHint").style.display = "block";
+      document.getElementById("rightCount").innerText = right;
+      document.getElementById("wrongCount").innerText = wrong;
+    };
+    wrap.appendChild(div);
+  });
+}
+
+function init() {
+  order = shuffle(questionBank.map((_, i) => i));
+  idx = 0; right = 0; wrong = 0;
+  document.getElementById("rightCount").innerText = 0;
+  document.getElementById("wrongCount").innerText = 0;
+  document.getElementById("quizArea").style.display = "block";
+  document.getElementById("btnWrap").style.display = "flex";
+  document.getElementById("doneBox").style.display = "none";
+  render();
+}
+
+document.getElementById("nextBtn").onclick = () => { idx++; render(); };
+document.getElementById("resetBtn").onclick = init;
+document.getElementById("againBtn").onclick = init;
+window.onload = init;
+</script>
+
+
+</body></html>
